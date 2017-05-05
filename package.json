@@ -1,0 +1,14 @@
+{
+  "name": "alexa-ghost",
+  "version": "1.0.0",
+  "description": "Play G-H-O-S-T on Alexa using this custom skill",
+  "main": "src/index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Mike Williams <mw@mikewill.net>",
+  "license": "MIT",
+  "dependencies": {
+    "alexa-sdk": "^1.0.8"
+  }
+}

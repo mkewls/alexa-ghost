@@ -1,0 +1,6 @@
+dev
+node_modules
+secrets
+.eslintrc
+.DS_Store
+.dropbox

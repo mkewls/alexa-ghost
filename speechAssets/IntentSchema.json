@@ -1,0 +1,59 @@
+{
+  "intents": [
+    {
+      "intent": "AddPlayerIntent",
+      "slots": [
+        {
+          "name": "PlayerName",
+          "type": "AMAZON.US_FIRST_NAME"
+        }
+      ]
+    },
+    {
+      "intent": "ChallengeIntent"
+    },
+    {
+      "intent": "ChallengeWordIntent",
+      "slots": [
+        {
+          "name": "ChallengeWord",
+          "type": "WORDS"
+        }
+      ]
+    },
+    {
+      "intent": "CurrentLettersIntent"
+    },
+    {
+      "intent": "CurrentScoreIntent"
+    },
+    {
+      "intent": "InstructIntent"
+    },
+    {
+      "intent": "PlayLetterIntent",
+      "slots": [
+        {
+          "name": "PlayerLetter",
+          "type": "LETTERS"
+        }
+      ]
+    },
+    {
+      "intent": "PlayGameIntent"
+    },
+    {
+      "intent": "ResetPlayersIntent"
+    },
+
+    {
+      "intent": "AMAZON.HelpIntent"
+    },
+    {
+      "intent": "AMAZON.StopIntent"
+    },
+    {
+      "intent": "AMAZON.CancelIntent"
+    }
+  ]
+  }
