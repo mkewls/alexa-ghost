@@ -1,5 +1,7 @@
 'use strict'
 
+/**************** Help Fn Collection for Help Game State *********************/
+
 const helpHandlers = {
   'HelpUser': () => {
     const speechOut = this.t('BASIC_HELP')

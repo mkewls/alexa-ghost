@@ -2,9 +2,10 @@
 
 const STATES = require('./gameStates')
 
-// note that 'this' context is the Alexa skills JS class
+/*********** New Session Handler Fn Collection at Skill Launch ****************/
+
 const newSessionHandlers = {
-  // create new session
+  // create new session at skill launch, then switch to game setup (START)
   'LaunchRequest': () => {
     const welcome = this.t('INTRO')
     this.handler.state = STATES.START

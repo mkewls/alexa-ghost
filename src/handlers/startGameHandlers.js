@@ -2,6 +2,34 @@
 
 const STATES = require('./gameStates')
 
+/**************** HELPER Fn to Handler Fn Collection below ********************/
+
+/**
+  @param JSON intent object
+  @returns string, a player's name
+  This function takes the input provided by the user and parses whether Alexa
+  validly captured a name as part of the 'AddPlayerIntent' method
+*/
+const getPlayerName = intent => {
+  const slotFilled = intent && intent.slots && intent.slots.PlayerName && intent.slots.PlayerName.value
+  // error test
+  if (!slotFilled) {
+    return null
+  }
+  const recognizedPlayerName = intent.slots.PlayerName.value
+  // if first name, then assign to return value, else parse first name
+  const split = recognizedPlayerName.indexOf(' ')
+  const newName = split < 0 ? recognizedPlayerName : recognizedPlayerName.slice(0, split)
+  // error test
+  if (newName === 'player' || newName === 'players') {
+    return null
+  }
+
+  return newName
+}
+
+/************ Game Setup Handler Fn Collection for Start Game State ***********/
+
 const startGameHandlers = {
   // If no saved game exists, prompt to hear instructions, else prompt to
   // continue saved game or start over
@@ -91,29 +119,6 @@ const startGameHandlers = {
     const huhStart = this.t('UNHANDLED')
     this.emit(':ask', huhStart, huhStart)
   }
-}
-/**
-  @param JSON intent object
-  @returns string, a player's name
-  This function takes the input provided by the user and parses whether Alexa
-  validly captured a name as part of the 'AddPlayerIntent' method
-*/
-const getPlayerName = intent => {
-  const slotFilled = intent && intent.slots && intent.slots.PlayerName && intent.slots.PlayerName.value
-  // error test
-  if (!slotFilled) {
-    return null
-  }
-  const recognizedPlayerName = intent.slots.PlayerName.value
-  // if first name, then assign to return value, else parse first name
-  const split = recognizedPlayerName.indexOf(' ')
-  const newName = split < 0 ? recognizedPlayerName : recognizedPlayerName.slice(0, split)
-  // error test
-  if (newName === 'player' || newName === 'players') {
-    return null
-  }
-
-  return newName
 }
 
 module.exports = startGameHandlers

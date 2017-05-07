@@ -3,6 +3,46 @@
 const STATES = require('./gameStates')
 const { checkWord, addLetter } = require('../dictionary/wordFns')
 
+/*************** HELPER Fns to Handler Fn Collection below ********************/
+/**
+@param context the Alexa JS class
+@return array of strings and numbers corresponding to the challenge
+This function computes who the challenger is and who the challenged player
+is based on the turn and returns that information to the handler methods
+*/
+const getChallengePlayers = game => {
+  const players = game.attributes['players']
+  const currentTurn = game.attributes['turn']
+  const priorTurn = currentTurn - 1 < 0
+  ? players.length - 1
+  : currentTurn - 1
+  const currentPlayer = players[currentTurn]
+  const challengedPlayer = players[priorTurn]
+
+  return [currentPlayer, challengedPlayer, currentTurn, priorTurn]
+}
+
+/**
+@param JSON Alexa intent object
+@return string the parsed word from the user
+*/
+const getWord = intent => {
+  let intentWord = null,
+  challengeWord = null
+
+  if (intent && intent.slot && intent.slot.ChallengeWord && intent.slot.ChallengeWord.value) {
+    intentWord = intent.slot.PlayerLetter.value
+  }
+
+  if (intentWord) {
+    challengeWord = intentWord.match(/\w+/gi).join('').toLowerCase()
+  }
+
+  return challengeWord
+}
+
+/************** Handler Fn Collection: Challenge Game State *******************/
+
 const challengeHandlers = {
   // challenge begun, confirm that a player has been challenged
   'StartChallenge': () => {
@@ -89,42 +129,6 @@ const challengeHandlers = {
 
     this.emit(':ask', huhChallenge, huhChallenge)
   }
-}
-/**
-  @param context the Alexa JS class
-  @return array of strings and numbers corresponding to the challenge
-  This function computes who the challenger is and who the challenged player
-  is based on the turn and returns that information to the handler methods
-*/
-const getChallengePlayers = game => {
-  const players = game.attributes['players']
-  const currentTurn = game.attributes['turn']
-  const priorTurn = currentTurn - 1 < 0
-    ? players.length - 1
-    : currentTurn - 1
-  const currentPlayer = players[currentTurn]
-  const challengedPlayer = players[priorTurn]
-
-  return [currentPlayer, challengedPlayer, currentTurn, priorTurn]
-}
-
-/**
-  @param JSON Alexa intent object
-  @return string the parsed word from the user
-*/
-const getWord = intent => {
-  let intentWord = null,
-      challengeWord = null
-
-  if (intent && intent.slot && intent.slot.ChallengeWord && intent.slot.ChallengeWord.value) {
-    intentWord = intent.slot.PlayerLetter.value
-  }
-
-  if (intentWord) {
-    challengeWord = intentWord.match(/\w+/gi).join('').toLowerCase()
-  }
-
-  return challengeWord
 }
 
 module.exports = challengeHandlers

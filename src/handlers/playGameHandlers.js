@@ -5,6 +5,33 @@ const STATES = require('./gameStates')
 // addLetter simply adds another letter from GHOST to the player score
 const { checkWord, addLetter } = require('../dictionary/wordFns')
 
+/**************** HELPER Fn to Handler Fn Collection below ********************/
+
+/**
+  @param JSON alexa intent object
+  @returns string the parsed letter
+  This function attempts to parse the user's provided letter and provide it
+  back to the handlers for confirmation and to put it in play
+*/
+const getPlayerLetter = intent => {
+  let intentLetter = null,
+      newLetter = null
+
+  if (intent && intent.slot && intent.slot.PlayerLetter && intent.slot.PlayerLetter.value) {
+    intentLetter = intent.slot.PlayerLetter.value
+  }
+
+  if (intentLetter) {
+    newLetter = intentLetter.match(/A-Z/)
+      ? intentLetter.match(/A-Z/).toString()
+      : null
+  }
+
+  return newLetter
+}
+
+/********** Game Play Handler Fn Collection for Play Game State ***************/
+
 const playGameHandlers = {
   // start game play
   'PlayTheGame': () => {
@@ -160,28 +187,6 @@ const playGameHandlers = {
 
     this.emit(':ask', huhPlay, huhPlay)
   }
-}
-/**
-  @param JSON alexa intent object
-  @returns string the parsed letter
-  This function attempts to parse the user's provided letter and provide it
-  back to the handlers for confirmation and to put it in play
-*/
-const getPlayerLetter = intent => {
-  let intentLetter = null,
-      newLetter = null
-
-  if (intent && intent.slot && intent.slot.PlayerLetter && intent.slot.PlayerLetter.value) {
-    intentLetter = intent.slot.PlayerLetter.value
-  }
-
-  if (intentLetter) {
-    newLetter = intentLetter.match(/A-Z/)
-      ? intentLetter.match(/A-Z/).toString()
-      : null
-  }
-
-  return newLetter
 }
 
 module.exports = playGameHandlers
